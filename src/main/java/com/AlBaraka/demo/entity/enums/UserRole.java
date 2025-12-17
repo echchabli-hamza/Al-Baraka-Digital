@@ -3,7 +3,8 @@ package com.AlBaraka.demo.entity.enums;
 
 public enum UserRole {
 
-    ADMIN ,
-    CLIENT
+    ROLE_USER,
+    ROLE_ADMIN ,
+    ROLE_CLIENT
 }
 

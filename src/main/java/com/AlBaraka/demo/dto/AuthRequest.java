@@ -1,6 +1,6 @@
 package com.AlBaraka.demo.dto;
 
-public class LoginRequest {
+public class AuthRequest {
 
 
 
