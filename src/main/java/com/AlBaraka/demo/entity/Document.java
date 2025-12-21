@@ -21,7 +21,7 @@ public class Document {
     private String storagePath;
     private LocalDateTime uploadedAt = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "operation_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "operation_id", nullable = false, unique = true)
     private Operation operation;
 }

@@ -1,6 +1,7 @@
 package com.AlBaraka.demo.entity;
 
 
+import com.AlBaraka.demo.entity.enums.OperationType;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -18,7 +19,8 @@ public class Operation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type; // DEPOSIT, WITHDRAWAL, TRANSFER
+    @Enumerated(EnumType.STRING)
+    private OperationType type;
 
     @Column(nullable = false)
     private BigDecimal amount;
@@ -36,4 +38,7 @@ public class Operation {
     @ManyToOne
     @JoinColumn(name = "account_destination_id")
     private Account accountDestination;
+
+    @OneToOne(mappedBy = "operation", cascade = CascadeType.ALL)
+    private Document document;
 }

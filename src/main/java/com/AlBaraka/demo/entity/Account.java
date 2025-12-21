@@ -2,6 +2,8 @@ package com.AlBaraka.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 
 @Entity
 @Table(name = "accounts")
@@ -19,7 +21,7 @@ public class Account {
     private String accountNumber;
 
     @Column(nullable = false)
-    private Double balance;
+    private BigDecimal balance;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)

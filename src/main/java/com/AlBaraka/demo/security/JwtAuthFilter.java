@@ -30,6 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+        System.out.println("Auth header 1: " + request.getHeader("Authorization"));
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
@@ -44,6 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         jwt = authHeader.substring(7);
 
+        System.out.println("Auth header 2: " + request.getHeader("Authorization"));
 
         userEmail = jwtService.extractUsername(jwt);
 

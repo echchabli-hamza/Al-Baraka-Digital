@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findByOperation(Operation operation);
+
+    List<Document> findByOperationId(Long operationId);
 }
