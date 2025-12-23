@@ -19,6 +19,7 @@ public class OperationResponse {
     private String SourceAccountNumber;
     private String DestinationAccountNumber;
     private String Message ;
+    private  Boolean HasDocument ;
 
 
 }
