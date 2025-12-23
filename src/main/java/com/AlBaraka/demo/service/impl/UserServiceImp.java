@@ -2,6 +2,7 @@ package com.AlBaraka.demo.service.impl;
 
 import com.AlBaraka.demo.entity.Account;
 import com.AlBaraka.demo.entity.User;
+import com.AlBaraka.demo.entity.enums.UserRole;
 import com.AlBaraka.demo.repository.AccountRepository;
 import com.AlBaraka.demo.repository.UserRepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,7 @@ public class UserServiceImp {
         user.setCreatedAt(LocalDateTime.now());
 
 
+        user.setRole(UserRole.ROLE_CLIENT);
         User savedUser = userRepo.save(user);
 
 

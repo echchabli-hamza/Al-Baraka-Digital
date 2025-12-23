@@ -39,6 +39,7 @@ public class Operation {
     @JoinColumn(name = "account_destination_id")
     private Account accountDestination;
 
-    @OneToOne(mappedBy = "operation", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "operation", cascade = CascadeType.ALL, orphanRemoval = true)
     private Document document;
+
 }

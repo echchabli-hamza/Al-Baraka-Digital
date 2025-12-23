@@ -2,6 +2,7 @@ package com.AlBaraka.demo.security;
 
 
 import com.AlBaraka.demo.entity.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +16,22 @@ public class UserInfoDetails implements UserDetails {
     private final String password;
     private final List<GrantedAuthority> authorities;
     private final boolean active;
+    @Getter
+    private final Long id ;
+    @Getter
+    private User u ;
+
+
 
 
     public UserInfoDetails(User user) {
+        this.id = user.getId();
+        this.u = user ;
         this.username = user.getEmail();
         this.password = user.getPassword();
         this.active = user.isActive();
+
+
         this.authorities = List.of(
                 new SimpleGrantedAuthority(user.getRole().name())
         );
@@ -62,4 +73,6 @@ public class UserInfoDetails implements UserDetails {
     public boolean isEnabled() {
         return active;
     }
+
+
 }

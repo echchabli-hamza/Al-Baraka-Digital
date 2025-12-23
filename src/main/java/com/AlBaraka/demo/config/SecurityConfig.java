@@ -43,15 +43,15 @@ public class SecurityConfig {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-//                .exceptionHandling(ex -> ex
-//                        .authenticationEntryPoint(customAuthenticationEntryPoint)
-//                        .accessDeniedHandler(customAccessDeniedHandler)
-//                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers("/api/client/**").hasRole("CLIENT")
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").permitAll()
                         .requestMatchers("/api/agent/**").hasRole("AGENT")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()

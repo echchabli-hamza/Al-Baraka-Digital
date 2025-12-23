@@ -18,5 +18,7 @@ public class OperationResponse {
     private Status status;
     private String SourceAccountNumber;
     private String DestinationAccountNumber;
+    private String Message ;
+
 
 }

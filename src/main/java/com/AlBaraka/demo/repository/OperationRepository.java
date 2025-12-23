@@ -7,8 +7,5 @@ import java.util.List;
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
     List<Operation> findByAccountSourceOrAccountDestination(Account source, Account destination);
-    List<Operation> findByStatus(String status);
-    List<Operation> findByUserId(Long userId);
 
-    List<Operation> findByAccountSourceUserId(Long userId);
 }
