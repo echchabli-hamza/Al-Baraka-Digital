@@ -197,7 +197,7 @@ public class OperationService {
                 .collect(Collectors.toList());
     }
 
-    public OperationResponse getOperationById(Long operationId, Long userId) {
+    public Operation getOperationById(Long operationId, Long userId) {
         Operation operation = operationRepository.findById(operationId)
                 .orElseThrow(() -> new RuntimeException("Operation not found"));
 
@@ -206,7 +206,7 @@ public class OperationService {
             throw new RuntimeException("Unauthorized access to operation");
         }
 
-        return mapToResponse(operation);
+        return operation;
     }
 
     @Transactional
@@ -292,7 +292,9 @@ public class OperationService {
                     .build();
 
             operation.setDocument(document);
+
             operationRepository.save(operation);
+
 
         } catch (IOException | java.io.IOException e) {
             throw new RuntimeException("File storage failed", e);
