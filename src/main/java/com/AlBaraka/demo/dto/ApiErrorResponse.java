@@ -14,6 +14,17 @@ public class ApiErrorResponse {
     private String path;
     private LocalDateTime timestamp;
 
+    public ApiErrorResponse(LocalDateTime timestamp, int status, String path, String message, String error) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.path = path;
+        this.message = message;
+        this.error = error;
+    }
+    public ApiErrorResponse()
+    {}
+
+
     public String getError() {
         return error;
     }

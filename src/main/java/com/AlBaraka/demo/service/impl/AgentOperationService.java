@@ -35,7 +35,7 @@ public class AgentOperationService {
         Operation operation = operationRepository.findById(operationId)
                 .orElseThrow(() -> new RuntimeException("Operation not found"));
 
-        if (!operation.getStatus().equals(Status.PENDING.name())) {
+        if (!   operation.getStatus().equals(Status.PENDING.name())) {
 
             throw new RuntimeException("Operation already processed");
         }

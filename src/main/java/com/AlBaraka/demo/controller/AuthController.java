@@ -36,35 +36,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        try {
 
-            if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(new AuthResponse(null, "Email already exists", null));
-            }
-
-
-            User user = new User();
-            user.setEmail(request.getEmail());
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-            user.setRole(UserRole.ROLE_CLIENT);
-            user.setActive(true);
-
-            userRepository.save(user);
-
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(new AuthResponse(null, "User registered successfully", user.getEmail()));
-
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new AuthResponse(null, "Registration failed: " + e.getMessage(), null));
-        }
-    }
 
 
     @PostMapping("/login")

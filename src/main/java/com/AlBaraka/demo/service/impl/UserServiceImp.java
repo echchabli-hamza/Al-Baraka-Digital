@@ -3,6 +3,7 @@ package com.AlBaraka.demo.service.impl;
 import com.AlBaraka.demo.entity.Account;
 import com.AlBaraka.demo.entity.User;
 import com.AlBaraka.demo.entity.enums.UserRole;
+import com.AlBaraka.demo.exeption.ClientNotFoundException;
 import com.AlBaraka.demo.repository.AccountRepository;
 import com.AlBaraka.demo.repository.UserRepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,7 +56,7 @@ public class UserServiceImp {
 
     public void setUserActiveStatus(Long userId, boolean active) {
         User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ClientNotFoundException("User not found"));
 
         user.setActive(active);
         userRepo.save(user);

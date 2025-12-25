@@ -1,6 +1,8 @@
 package com.AlBaraka.demo.controller;
 
+import com.AlBaraka.demo.dto.RegisterRequest;
 import com.AlBaraka.demo.entity.User;
+import com.AlBaraka.demo.exeption.ClientNotFoundException;
 import com.AlBaraka.demo.service.impl.UserServiceImp;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,12 @@ public class AdminController {
 
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody RegisterRequest request) {
+
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+           user.setActive(request.isActive());
         User createdUser = userService.createUser(user);
         return ResponseEntity.ok(createdUser);
     }
@@ -55,7 +62,7 @@ public class AdminController {
         User user = userService.getAll().stream()
                 .filter(u -> u.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ClientNotFoundException("User not found"));
         return ResponseEntity.ok(user);
     }
 }
