@@ -23,7 +23,7 @@ public class AgentOperationService {
 
     public List<OperationResponse> getPendingOperations() {
 
-        return operationRepository.findByStatus(Status.PENDING)
+        return operationRepository.findByStatus(Status.PENDING.name())
                 .stream()
                 .map(this::mapToAgentResponse)
                 .toList();

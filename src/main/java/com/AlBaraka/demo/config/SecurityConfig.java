@@ -2,10 +2,14 @@ package com.AlBaraka.demo.config;
 
 import com.AlBaraka.demo.security.JwtAuthFilter;
 import com.AlBaraka.demo.security.UserInfoService;
+import com.AlBaraka.demo.security.exeptions.CustomAccessDeniedHandler;
+import com.AlBaraka.demo.security.exeptions.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,14 +37,40 @@ public class SecurityConfig {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
-    private  AuthenticationEntryPoint customAuthenticationEntryPoint;
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
     @Autowired
-    private  AccessDeniedHandler customAccessDeniedHandler;
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Order(1)
+    public SecurityFilterChain oauth2FilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/api/agentOauth/**", "/oauth2/**", "/login/oauth2/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/agentOauth/operations/**")
+                        .hasAuthority("SCOPE_operations.read")
 
+                        .requestMatchers("/api/agentOauth/**").authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/api/agentOauth", true)
+                )
+                ;
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(ex -> ex
@@ -60,6 +90,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 
     @Bean

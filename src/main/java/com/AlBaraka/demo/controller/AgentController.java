@@ -25,33 +25,32 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/agent")
+@RequestMapping("/api")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('AGENT_BANCAIRE')")
 public class AgentController {
 
     private final AgentOperationService agentOperationService;
 
     private final OperationService operationService;
 
-    @GetMapping("/Operations")
+    @GetMapping("/agentOauth")
     public ResponseEntity<List<OperationResponse>> getPendingOperations() {
         return ResponseEntity.ok(agentOperationService.getPendingOperations());
     }
 
-    @PutMapping("/operations/{id}/approve")
+    @PutMapping("/agent/operations/{id}/approve")
     public ResponseEntity<String> approveOperation(@PathVariable Long id) {
         agentOperationService.approveOperation(id);
         return ResponseEntity.ok("Operation approved successfully");
     }
 
-    @PutMapping("/operations/{id}/reject")
+    @PutMapping("/agent/operations/{id}/reject")
     public ResponseEntity<String> rejectOperation(@PathVariable Long id) {
         agentOperationService.rejectOperation(id);
         return ResponseEntity.ok("Operation rejected successfully");
     }
 
-    @GetMapping("/operations/{id}")
+    @GetMapping("/agent/operations/{id}")
     public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) throws IOException, MalformedURLException {
 
 
