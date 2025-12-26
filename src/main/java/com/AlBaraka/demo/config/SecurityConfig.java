@@ -20,6 +20,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -31,6 +34,10 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
+
+
+    @Autowired
+    private OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -44,29 +51,38 @@ public class SecurityConfig {
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
+
+
+
+
     @Bean
     @Order(1)
     public SecurityFilterChain oauth2FilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/agentOauth/**", "/oauth2/**", "/login/oauth2/**")
+                .securityMatcher("/api/OauthEndpoint/**", "/oauth2/**", "/login/oauth2/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/agentOauth/operations/**")
+                        .requestMatchers(HttpMethod.GET, "/api/OauthEndpoint/operations/**")
                         .hasAuthority("SCOPE_operations.read")
 
-                        .requestMatchers("/api/agentOauth/**").authenticated()
+                        .requestMatchers("/api/OauthEndpoint/**").authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/api/agentOauth", true)
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(oauth2UserService)  // <-- ton bean ici
+                        )
+                        .defaultSuccessUrl("/api/OauthEndpoint", false)  // false = respecter la requête originale
                 )
-                ;
+        ;
         return http.build();
     }
+
+
 
     @Bean
     @Order(2)
@@ -79,6 +95,8 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/agentOauth/**").authenticated()
+                        .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers("/api/client/**").hasRole("CLIENT")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")

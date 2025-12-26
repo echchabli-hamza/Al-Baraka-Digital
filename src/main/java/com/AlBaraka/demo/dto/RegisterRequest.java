@@ -14,6 +14,7 @@ public class RegisterRequest {
     private String email;
     @NonNull
     private String password;
+
     private Boolean active ;
 
 

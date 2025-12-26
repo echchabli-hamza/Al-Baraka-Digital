@@ -33,7 +33,7 @@ public class AgentController {
 
     private final OperationService operationService;
 
-    @GetMapping("/agentOauth")
+    @GetMapping("/OauthEndpoint")
     public ResponseEntity<List<OperationResponse>> getPendingOperations() {
         return ResponseEntity.ok(agentOperationService.getPendingOperations());
     }

@@ -48,25 +48,25 @@ public class OperationService {
 
         Account account = accountRepository.findByOwnerId(userId);
 
-        Optional<Account> accountD = accountRepository.findByAccountNumber(request.getDestinationAccountNumber());
+//        Optional<Account> accountD = accountRepository.findByAccountNumber(request.getDestinationAccountNumber());
+//
+//        if (accountD.isEmpty()) {
+//            throw new RuntimeException("the account numer doesn't exist in db" + userId );
+//        }
+//
+//
+//        Account ad = accountD.get();
 
-        if (accountD.isEmpty()) {
-            throw new RuntimeException("the account numer doesn't exist in db");
-        }
-
-
-        Account ad = accountD.get();
-
-        if (ad.getBalance().compareTo(request.getAmount()) < 0) {
-
-            throw new RuntimeException("you dont have enough balance ");
-        }
+//        if (account.getBalance().compareTo(request.getAmount()) < 0) {
+//
+//            throw new RuntimeException("you dont have enough balance ");
+//        }
 
         Operation operation = Operation.builder()
                 .type(OperationType.DEPOSIT)
                 .amount(request.getAmount())
                 .accountSource(account)
-                .accountDestination(ad)
+                .accountDestination(account)
                 .createdAt(LocalDateTime.now())
                 .build();
 

@@ -24,7 +24,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         ApiErrorResponse error = new ApiErrorResponse();
         error.setStatus(HttpServletResponse.SC_FORBIDDEN);
         error.setError("FORBIDDEN");
-        error.setMessage("Access denied: insufficient permissions");
+        error.setMessage("Access denied: insufficient permissions OO");
         error.setPath(request.getRequestURI());
         error.setTimestamp(LocalDateTime.now());
 

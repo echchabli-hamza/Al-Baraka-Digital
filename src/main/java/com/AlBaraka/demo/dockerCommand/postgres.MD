@@ -1,5 +1,5 @@
 
-docker run -d   --name baraka   -p 3333:5432   -e POSTGRES_DB=albaraka_db   -e POSTGRES_USER=postgres   -e POSTGRES_PASSWORD=postgres   -v postgres_data1:/var/lib/postgresql/data1   postgres:15
+docker run -d   --name baraka   -p 3333:5432   -e POSTGRES_DB=albaraka_db   -e POSTGRES_USER=postgres   -e POSTGRES_PASSWORD=postgres     postgres:15
 
 
 
@@ -37,3 +37,11 @@ build the image  : docker build -t barakakey:latest .
 
 ### we creatingthe container using this command
 docker run --name baraka-oauth -p 6600:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin barakakey:latest
+
+
+
+d
+
+### for the baraka  app api 
+
+docker run -d --name baraka-container10 --network baraka-net -p 1212:1212 -e SPRING_PROFILES_ACTIVE=docker baraka-image-10
