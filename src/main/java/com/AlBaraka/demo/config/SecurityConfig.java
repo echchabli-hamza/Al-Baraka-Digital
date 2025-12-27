@@ -74,9 +74,9 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
-                                .userService(oauth2UserService)  // <-- ton bean ici
+                                .userService(oauth2UserService)
                         )
-                        .defaultSuccessUrl("/api/OauthEndpoint", false)  // false = respecter la requête originale
+                        .defaultSuccessUrl("/api/OauthEndpoint", false)
                 )
         ;
         return http.build();

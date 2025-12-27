@@ -1,0 +1,51 @@
+version: "3.9"
+
+networks:
+  baraka-net:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: baraka
+    networks:
+      - baraka-net
+    ports:
+      - "3333:5432"
+    environment:
+      POSTGRES_DB: albaraka_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: unless-stopped
+
+  app:
+    image: baraka-image-10
+    container_name: baraka-container10
+    networks:
+      - baraka-net
+    ports:
+      - "1212:1212"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  keycloak:
+    image: barakakey:latest
+    container_name: baraka-oauth
+    networks:
+      - baraka-net
+    ports:
+      - "6600:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_PROXY: edge
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 6600
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+    depends_on:
+      - postgres
+    restart: unless-stopped

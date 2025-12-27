@@ -45,3 +45,31 @@ d
 ### for the baraka  app api 
 
 docker run -d --name baraka-container10 --network baraka-net -p 1212:1212 -e SPRING_PROFILES_ACTIVE=docker baraka-image-10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+docker run -d   --name baraka-oauth   --network baraka-net   -p 6600:8080   -e KEYCLOAK_ADMIN=admin   -e KEYCLOAK_ADMIN_PASSWORD=admin   -e KC_PROXY=edge   -e KC_HOSTNAME=localhost   -e KC_HOSTNAME_PORT=6600   -e KC_HOSTNAME_STRICT=false   -e KC_HTTP_ENABLED=true   barakakey:latest
