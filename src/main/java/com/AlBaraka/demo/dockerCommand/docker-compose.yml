@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   app:
-    image: baraka-image-10
+    image: echchablihamza/baraka-image-10:latest
     container_name: baraka-container10
     networks:
       - baraka-net
@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
   keycloak:
-    image: barakakey:latest
+    image: echchablihamza/barakakey:latest
     container_name: baraka-oauth
     networks:
       - baraka-net
