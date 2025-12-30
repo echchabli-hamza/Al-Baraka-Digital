@@ -24,6 +24,8 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
+
+
     @Bean
     public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
         return userRequest -> {
