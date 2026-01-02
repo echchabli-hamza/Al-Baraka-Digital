@@ -57,7 +57,7 @@ public class AuthController {
             String token = jwtService.generateToken(userDetails);
 
             return ResponseEntity.ok(
-                    new AuthResponse(token, "Login successful", userDetails.getUsername())
+                    new AuthResponse(token, "ok from ci/cd", userDetails.getUsername())
             );
 
         } catch (BadCredentialsException e) {
