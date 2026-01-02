@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
@@ -40,3 +40,20 @@ jobs:
         run: |
           docker push echchablihamza/baraka-api:v1.0.0
           docker push echchablihamza/baraka-api:latest
+
+      - name: Wait for Docker Hub to process image
+        run: sleep 10
+
+      - name: Trigger Jenkins Deployment
+        if: success()
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "http://161.35.220.69:8081/job/baraka/build" \
+            --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }}")
+          
+          if [ $response -eq 201 ] || [ $response -eq 200 ]; then
+            echo "✅ Jenkins deployment triggered successfully"
+          else
+            echo "❌ Failed to trigger Jenkins. HTTP status: $response"
+            exit 1
+          fi
