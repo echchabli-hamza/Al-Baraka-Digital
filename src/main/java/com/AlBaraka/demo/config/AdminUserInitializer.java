@@ -39,7 +39,7 @@ public class AdminUserInitializer implements CommandLineRunner {
             userRepository.save(admin);
             System.out.println("Admin user created with hashed password.");
         } else {
-            System.out.println("Admin user already exists.");
+            System.out.println("Admin user adedzedzelready exists.");
         }
 
         if (!userRepository.existsByEmail("client2")) {

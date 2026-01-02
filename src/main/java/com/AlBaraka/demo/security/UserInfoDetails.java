@@ -24,6 +24,8 @@ public class UserInfoDetails implements UserDetails {
 
 
 
+
+
     public UserInfoDetails(User user) {
         this.id = user.getId();
         this.u = user ;
