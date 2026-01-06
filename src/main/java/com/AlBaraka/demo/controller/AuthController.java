@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,24 +57,30 @@ public class AuthController {
 
             String token = jwtService.generateToken(userDetails);
 
+            String role = userDetails.getAuthorities()
+                    .stream()
+                    .findFirst()
+                    .map(GrantedAuthority::getAuthority)
+                    .orElse("ROLE_USER");
+
             return ResponseEntity.ok(
-                    new AuthResponse(token, "ok from ci/cd", userDetails.getUsername())
+                    new AuthResponse(token, "ok from ci/cd",  role , userDetails.getUsername())
             );
 
         } catch (BadCredentialsException e) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(new AuthResponse(null, "Invalid email or password", null));
+                    .body(new AuthResponse(null,  "","Invalid email or password", null));
 
         } catch (UsernameNotFoundException e) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(new AuthResponse(null, "User not found", null));
+                    .body(new AuthResponse(null, "", "User not found", null));
 
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new AuthResponse(null, "Login failed: " + e.getMessage(), null));
+                    .body(new AuthResponse(null, "","Login failed: " + e.getMessage(), null));
         }
     }
 
