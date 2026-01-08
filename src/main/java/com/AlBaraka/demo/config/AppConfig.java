@@ -22,6 +22,31 @@ public class AppConfig {
 
 
 
+
+    @Bean
+    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
+        return userRequest -> {
+            OAuth2User oauth2User = new DefaultOAuth2UserService().loadUser(userRequest);
+
+            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+
+            mappedAuthorities.addAll(oauth2User.getAuthorities());
+
+            System.out.println("Authorities reçues du token :");
+            mappedAuthorities.forEach(System.out::println);
+
+            String scopeClaim = oauth2User.getAttribute("scp");
+            if (scopeClaim != null) {
+                for (String scope : scopeClaim.split(" ")) {
+                    mappedAuthorities.add(new SimpleGrantedAuthority("SCOPE_" + scope));
+                }
+            }
+
+            return new DefaultOAuth2User(mappedAuthorities, oauth2User.getAttributes(), "sub");
+        };
+    }
+
+
 //    @Configuration
 //    public class CorsConfig {
 //
