@@ -88,12 +88,12 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher(request -> {
-                    String path = request.getRequestURI();
-                    return !path.startsWith("/oauth2/") &&
-                            !path.startsWith("/login/oauth2/") &&
-                            !path.startsWith("/api/OauthEndpoint/");
-                })
+//                .securityMatcher(request -> {
+//                    String path = request.getRequestURI();
+//                    return !path.startsWith("/oauth2/") &&
+//                            !path.startsWith("/login/oauth2/") &&
+//                            !path.startsWith("/api/OauthEndpoint/");
+//                })
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
