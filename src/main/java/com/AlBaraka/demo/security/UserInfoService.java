@@ -20,6 +20,8 @@ public class UserInfoService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
+        System.out.println(user.getRole());
+
         return new UserInfoDetails(user);
     }
 }
