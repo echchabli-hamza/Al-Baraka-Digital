@@ -64,7 +64,7 @@ public class AuthController {
                     .orElse("ROLE_USER");
 
             return ResponseEntity.ok(
-                    new AuthResponse(token, "ok from ci/cd",  userDetails.getUsername(),role  )
+                    new AuthResponse(token, "new message test",  userDetails.getUsername(),role  )
             );
 
         } catch (BadCredentialsException e) {

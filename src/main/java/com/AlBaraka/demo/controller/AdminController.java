@@ -38,7 +38,7 @@ public class AdminController {
             @RequestBody User user
     ) {
         user.setId(id);
-        User updatedUser = userService.createUser(user);
+        User updatedUser = userService.update(id ,user);
         return ResponseEntity.ok(updatedUser);
     }
 

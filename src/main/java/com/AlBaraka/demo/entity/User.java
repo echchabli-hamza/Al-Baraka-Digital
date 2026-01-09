@@ -34,4 +34,12 @@ public class User {
 
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

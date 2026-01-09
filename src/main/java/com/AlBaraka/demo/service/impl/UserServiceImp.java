@@ -48,6 +48,23 @@ public class UserServiceImp {
         return savedUser;
     }
 
+    public User update(Long id ,User newuser) {
+
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new ClientNotFoundException("User not found"));
+
+
+        user.setActive(newuser.isActive());
+
+
+        user.setRole(newuser.getRole());
+        User savedUser = userRepo.save(user);
+
+
+
+        return savedUser;
+    }
+
 
     public List<User> getAll() {
         return userRepo.findAll();
