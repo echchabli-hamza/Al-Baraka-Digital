@@ -59,27 +59,27 @@ public class AppConfig {
     }
 
 
-//    @Configuration
-//    public class CorsConfig {
-//
-//        @Bean
-//        public CorsFilter corsFilter() {
-//            CorsConfiguration config = new CorsConfiguration();
-//
-//            config.setAllowCredentials(true);
-//            config.setAllowedOrigins(List.of(
-//                    "http://localhost:4200",
-//                    "http://161.35.220.69:4200"
-//            ));
-//            config.setAllowedHeaders(List.of("*"));
-//            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//
-//            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//            source.registerCorsConfiguration("/**", config);
-//
-//            return new CorsFilter(source);
-//        }
-//    }
+    @Configuration
+    public class CorsConfig {
+
+        @Bean
+        public CorsFilter corsFilter() {
+            CorsConfiguration config = new CorsConfiguration();
+
+            config.setAllowCredentials(true);
+            config.setAllowedOrigins(List.of(
+                    "http://localhost:4200",
+                    "http://161.35.220.69:4200"
+            ));
+            config.setAllowedHeaders(List.of("*"));
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/**", config);
+
+            return new CorsFilter(source);
+        }
+    }
 
 
 
