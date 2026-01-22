@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/client")
+@RequestMapping("/api/clientC")
 @RequiredArgsConstructor
 public class ClientController {
 
@@ -45,7 +45,7 @@ public class ClientController {
         OperationResponse response;
 
         if (request.getAmount() == null || request.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new RuntimeException("amount must be more than 0  ");
+            throw new RuntimeException("amount used must be more than 0  ");
         }
 
 
@@ -83,14 +83,49 @@ public class ClientController {
     }
 
     @GetMapping("/operations/{id}")
+    public ResponseEntity<OperationResponse> getOperationDetails(@PathVariable Long id) {
+        Long userId = ((UserInfoDetails) Objects.requireNonNull(
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal()
+        )).getId();
+
+        Operation operation = operationService.getOperationById(id, userId);
+        if (operation == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        OperationResponse dto = new OperationResponse();
+        dto.setId(operation.getId());
+        dto.setType(operation.getType());
+        dto.setStatus(Status.valueOf(operation.getStatus()));
+        dto.setAmount(operation.getAmount());
+
+        Document doc = operation.getDocument();
+
+        if (doc != null) {
+            dto.setHasDocument(true);
+            dto.setDocId(doc.getId());
+
+        }
+
+        System.out.println(dto);
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/operations/document/{id}/")
     public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) throws IOException, MalformedURLException {
         Long userId = ((UserInfoDetails) Objects.requireNonNull(
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal()
         )).getId();
 
         Operation operation = operationService.getOperationById(id, userId);
-        Document document = operation.getDocument();
+        if (operation == null) {
+            return ResponseEntity.notFound().build();
+        }
 
+
+        Document document = operation.getDocument();
         if (document == null) {
             return ResponseEntity.notFound().build();
         }
@@ -100,12 +135,13 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
 
+
         Resource resource = new UrlResource(filePath.toUri());
 
         return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF) // tells browser it's a PDF
+                .contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + document.getFileName() + "\"") // forces download
+                        "attachment; filename=\"" + document.getFileName() + "\"") // triggers download
                 .body(resource);
     }
 

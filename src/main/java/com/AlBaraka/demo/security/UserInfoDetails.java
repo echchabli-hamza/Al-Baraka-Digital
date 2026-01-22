@@ -33,7 +33,6 @@ public class UserInfoDetails implements UserDetails {
         this.password = user.getPassword();
         this.active = user.isActive();
 
-
         this.authorities = List.of(
                 new SimpleGrantedAuthority(user.getRole().name())
         );

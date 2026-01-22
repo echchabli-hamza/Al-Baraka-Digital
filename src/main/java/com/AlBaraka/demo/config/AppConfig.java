@@ -69,7 +69,8 @@ public class AppConfig {
             config.setAllowCredentials(true);
             config.setAllowedOrigins(List.of(
                     "http://localhost:4200",
-                    "http://161.35.220.69:4200"
+                    "http://161.35.220.69:4200",
+                    "chrome-extension://gmmkjpcadciiokjpikmkkmapphbmdjok"
             ));
             config.setAllowedHeaders(List.of("*"));
             config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

@@ -20,6 +20,22 @@ public class OperationResponse {
     private String DestinationAccountNumber;
     private String Message ;
     private  Boolean HasDocument ;
+    private Long docId ;
 
 
+    @Override
+    public String toString() {
+        return "OperationResponse{" +
+                "amount=" + amount +
+                ", id=" + id +
+                ", type=" + type +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", status=" + status +
+                ", SourceAccountNumber='" + SourceAccountNumber + '\'' +
+                ", DestinationAccountNumber='" + DestinationAccountNumber + '\'' +
+                ", Message='" + Message + '\'' +
+                ", HasDocument=" + HasDocument +
+                '}';
+    }
 }
