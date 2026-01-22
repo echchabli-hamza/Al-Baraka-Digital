@@ -73,8 +73,3 @@ La solution combine **sécurité, automatisation, intelligence artificielle et d
 2. Analyse par Spring AI
 3. Décision automatique ou validation humaine
 
----
-
-## 🐳 Déploiement Docker
-```bash
-docker-compose up --build
